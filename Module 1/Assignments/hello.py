@@ -9,4 +9,5 @@ name = input("Enter a name: ")
 # b. Prints the string “Hello, <name>!” to the screen.
    # i. Sample output: Hello, Joe!
 
-print(f"Hello, {name}!")
+#print(f"Hello, {name}!")
+print("Hello, " + name + "!")
