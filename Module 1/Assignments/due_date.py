@@ -4,13 +4,13 @@
 day = input("Enter the day (DD): ")
 month = input("Enter the month (MM): ")
 year = input("Enter the year (YYYY): ")
-hours = input("Enter the hours (HH): ")
-minutes = input("Enter the minutes (MM): ")
-seconds = input("Enter the seconds (SS): ")
+hour = input("Enter the hours (HH): ")
+minute = input("Enter the minutes (MM): ")
+second = input("Enter the seconds (SS): ")
 # 3. Use the ‘print’ statement to concatenate the variables into a string and output the due
 # date of the assignment in the following format:
 # a. “Module 1 Assignment is due on MM/DD/YYYY at HH:MM:SS PM EST”
     # i. Fill in MM, DD, YYYY, HH, MM, and SS using the corresponding variables
     # ii. Your output should not include the quotation marks
 
-print(f"Module 1 Assignment is due on {month}/{day}/{year} at {hours}:{minutes}:{seconds} PM EST")
+print(f"Module 1 Assignment is due on {month}/{day}/{year} at {hour}:{minute}:{second} PM EST")
