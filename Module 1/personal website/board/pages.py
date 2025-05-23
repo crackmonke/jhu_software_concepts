@@ -9,3 +9,7 @@ def home():
 @bp.route("/contact")
 def contact():
     return render_template("pages/contact.html")
+
+@bp.route("/projects")
+def projects():
+    return render_template("pages/projects.html")
