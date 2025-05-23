@@ -9,23 +9,36 @@ body {
   text-align: center;
 }
 
-a,
-a:visited {
-  color: #007bff;
-}
-
-a:hover {
-  color: #0056b3;
+nav {
+  background-color: #f8f9fa;
+  padding: 0 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 nav ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 nav ul li {
   display: inline;
-  margin: 0 5px;
+  margin: 0;
+}
+
+nav ul li a {
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  background-color: #979b9f;
 }
 
 main {
