@@ -41,6 +41,10 @@ nav ul li a:hover {
   background-color: #979b9f;
 }
 
+nav ul li a.active {
+  background-color: #114171;
+}
+
 main {
   width: 80%;
   margin: 0 auto;
