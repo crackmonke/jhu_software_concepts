@@ -1,8 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Projects{% endblock %}
+{% extends 'base.html' %}
+
+{% block header %}
+  <h2>{% block title %}Projects{% endblock title %}</h2>
+{% endblock header %}
+
 {% block content %}
-  <h2>Projects</h2>
-  <p>Here are some of my projects:</p>
+  <p>These are my projects:</p>
+  <ul>
     <li>none</li>
     <li>none 1</li>
     <li>none 2</li>
+  </ul>
+{% endblock content %}
