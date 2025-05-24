@@ -13,6 +13,16 @@ body {
 /* Home Page Styles */
 
 /*About Section Styles */
+.about-me {
+  background-color: #eed4fb;
+  padding: 20px;
+  width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .about-me ul{
   display: flex;
   align-items: center;
