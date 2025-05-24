@@ -1,4 +1,4 @@
-from board inport create_app
+from board import create_app
 
 app = create_app()
 
