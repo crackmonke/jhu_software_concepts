@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Savannah Greeley{% endblock title %}</h1>
+{% endblock header %}
+
+{% block content %}
+<section class="about-me">
+  <ul>
+    <li class="bio">
+      <p>Student at Johns Hopkins University</p>
+      <p>Passionate about AI and its applications in healthcare.</p>
+    </li>
+    <li class="profile-pic">
+      <img src="{{ url_for('static', filename='images/selfie.JPEG') }}" alt="Savannah Greeley" width="150" height="200">
+    </li>
+  </ul>
+</section>
+{% endblock content %}

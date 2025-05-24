@@ -1,0 +1,10 @@
+<nav>
+  <ul>
+    <li><a href="{{ url_for('pages.home') }}"
+      class="{% if current_page == 'home' %}active{% endif %}">Home</a></li>
+    <li><a href="{{ url_for('pages.contact') }}"
+      class="{% if current_page == 'contact' %}active{% endif %}">Contact</a></li>
+    <li><a href="{{ url_for('pages.projects') }}"
+      class="{% if current_page == 'projects' %}active{% endif %}">Projects</a></li>
+  </ul>
+</nav>
