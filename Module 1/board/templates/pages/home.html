@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block header %}
+  <!-- Main page header with name, can be overridden by child templates -->
   <h1>{% block title %}Savannah Greeley{% endblock title %}</h1>
 {% endblock header %}
 
 {% block content %}
+<!-- About Me section with bio and profile picture -->
 <section class="about-me">
   <ul>
     <li class="bio">
+      <!-- Bio information -->
       <p>Student at Johns Hopkins University</p>
       <p>Passionate about AI and its applications in healthcare.</p>
     </li>
     <li class="profile-pic">
+      <!-- Profile picture -->
       <img src="{{ url_for('static', filename='images/selfie.JPEG') }}" alt="Savannah Greeley" width="150" height="200">
     </li>
   </ul>
