@@ -5,10 +5,15 @@
 {% endblock header %}
 
 {% block content %}
-  <h3>Student at Johns Hopkins University</h3>
-  <p>
-    I am a student at Johns Hopkins University, studying artificial intelligence.
-  </p>
-  <img src="{{ url_for('static', filename='images/selfie.JPEG') }}" alt="Savannah Greeley" width="150" height="200">
-
+<section class="about-me">
+  <ul>
+    <li>
+      <p>Student at Johns Hopkins University</p>
+      <p>Passionate about AI and its applications in healthcare.</p>
+    </li>
+    <li>
+      <img src="{{ url_for('static', filename='images/selfie.JPEG') }}" alt="Savannah Greeley" width="150" height="200">
+    </li>
+  </ul>
+</section>
 {% endblock content %}
