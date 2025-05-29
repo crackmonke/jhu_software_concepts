@@ -49,12 +49,20 @@ def scrape_data(max_pages=10):
             school_div = group.find('div', class_='tw-font-medium tw-text-gray-900 tw-text-sm')
             data['school_name'] = school_div.get_text(strip=True) if school_div else None
 
-            # Program + Degree (2 <span> tags inside div)
-            program_block = group.find('div', class_='tw-text-gray-900')
-            if program_block:
-                spans = program_block.find_all('span')
-                data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
-                data['degree'] = spans[1].get_text(strip=True) if len(spans) > 1 else None
+            # Program + Degree (both are inside the 2nd <td>)
+            program_td = group.find_all('td')[1] if len(group.find_all('td')) > 1 else None
+            if program_td:
+                program_div = program_td.find('div', class_='tw-text-gray-900')
+                if program_div:
+                    spans = program_div.find_all('span')
+                    data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
+
+                    # The next <span> after the program is usually the degree
+                    degree_span = program_div.find_next('span', class_='tw-text-gray-500')
+                    data['degree'] = degree_span.get_text(strip=True) if degree_span else None
+                else:
+                    data['program'] = None
+                    data['degree'] = None
             else:
                 data['program'] = None
                 data['degree'] = None
