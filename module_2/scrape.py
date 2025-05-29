@@ -100,8 +100,3 @@ def scrape_data(max_pages=10):
         page_number += 1
 
     return collected_data
-
-# Run and print
-entries = scrape_data(3)
-for entry in entries:
-    print(entry)
