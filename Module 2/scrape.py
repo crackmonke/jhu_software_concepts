@@ -5,19 +5,6 @@ import re
 # Url to scape - does not include the page number by itself
 url = "https://www.thegradcafe.com/survey/?page="
 
-
-
-
-# o Comments (if available)
-# o Semester and Year of Program Start (if available)
-# o Interna/onal / American Student (if available)
-# o GRE Score (if available)
-# o GRE V Score (if available)
-# o Masters or PhD (if available)
-# o GPA (if available)
-# o GRE AW (if available)
-
-
 def scrape_data(max_pages=10):
     page_number = 1
     collected_data = []
@@ -73,7 +60,7 @@ def scrape_data(max_pages=10):
             result_link = group.find('a', href=re.compile(r'^/result/\d+'))
             data['result_url'] = f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
 
-            # Below td (under tr)
+            # Below td (under tr) - Additional Information
             below_td = group.find_next_sibling('tr')
             if below_td:
                 tag_container = below_td.find('div', class_='tw-gap-2 tw-flex tw-flex-wrap')
@@ -101,6 +88,13 @@ def scrape_data(max_pages=10):
                         elif text.lower().startswith('gre'):
                             data['gre_score'] = text.replace('GRE:', '').strip()
 
+            # Comments (if available)
+            comments_row = below_td.find_next_sibling('tr', class_='tw-border-none')
+            if comments_row:
+                comment_div = comments_row.find('p', class_='tw-text-gray-500 tw-text-sm tw-my-0')
+                if comment_div:
+                    data['comments'] = comment_div.get_text(strip=True)
+                    
             collected_data.append(data)
 
         page_number += 1
