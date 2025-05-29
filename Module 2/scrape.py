@@ -29,6 +29,28 @@ def get_links(max_pages=10):
 
         page_number += 1
 
-    print(all_links)
+    return all_links
 
-get_links()
+
+def scrape_links():
+    links = get_links()
+
+
+
+
+
+# Program Name
+# o University
+# o Comments (if available)
+# o Date of Informa/on Added to Grad Café
+# o URL link to applicant entry
+# o Applicant Status
+# ▪ If Accepted: Acceptance Date
+# ▪ If Rejected: Rejec/on Date
+# o Semester and Year of Program Start (if available)
+# o Interna/onal / American Student (if available)
+# o GRE Score (if available)
+# o GRE V Score (if available)
+# o Masters or PhD (if available)
+# o GPA (if available)
+# o GRE AW (if available)
