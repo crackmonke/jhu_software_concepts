@@ -19,4 +19,15 @@ def get_links():
         except:
             break
 
-    return all_links
+        links = re.findall(pattern, html)
+        if not links:
+            break
+
+        for link in links:
+            all_links.add(link)
+
+        page_number += 1
+
+    print(all_links)
+
+get_links()
