@@ -73,6 +73,34 @@ def scrape_data(max_pages=10):
             result_link = group.find('a', href=re.compile(r'^/result/\d+'))
             data['result_url'] = f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
 
+            # Below td (under tr)
+            below_td = group.find_next_sibling('tr')
+            if below_td:
+                tag_container = below_td.find('div', class_='tw-gap-2 tw-flex tw-flex-wrap')
+                if tag_container:
+                    tags = tag_container.find_all('div', class_='tw-inline-flex')
+
+                    for tag in tags:
+                        text = tag.get_text(strip=True)
+
+                        if any(season in text.lower() for season in ['fall', 'spring', 'summer']):
+                            data['semester_year'] = text
+                        
+                        elif 'international' in text.lower() or 'american' in text.lower():
+                            data['international_american'] = text
+                        
+                        elif text.lower().startswith('gpa'):
+                            data['gpa'] = text.replace('GPA:', '').strip()
+                        
+                        elif text.lower().startswith('gre v'):
+                            data['gre_v_score'] = text.replace('GRE V:', '').strip()
+                        
+                        elif text.lower().startswith('gre aw'):
+                            data['gre_aw'] = text.replace('GRE AW:', '').strip()
+                        
+                        elif text.lower().startswith('gre'):
+                            data['gre_score'] = text.replace('GRE:', '').strip()
+
             collected_data.append(data)
 
         page_number += 1
