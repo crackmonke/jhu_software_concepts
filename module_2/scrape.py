@@ -88,12 +88,12 @@ def scrape_data(max_pages=10):
                         elif text.lower().startswith('gre'):
                             data['gre_score'] = text.replace('GRE:', '').strip()
 
-            # Comments (if available)
-            comments_row = below_td.find_next_sibling('tr', class_='tw-border-none')
-            if comments_row:
-                comment_div = comments_row.find('p', class_='tw-text-gray-500 tw-text-sm tw-my-0')
-                if comment_div:
-                    data['comments'] = comment_div.get_text(strip=True)
+                # Comments (if available)
+                comments_row = below_td.find_next_sibling('tr', class_='tw-border-none')
+                if comments_row:
+                    comment_div = comments_row.find('p', class_='tw-text-gray-500 tw-text-sm tw-my-0')
+                    if comment_div:
+                        data['comments'] = comment_div.get_text(strip=True)
                     
             collected_data.append(data)
 
