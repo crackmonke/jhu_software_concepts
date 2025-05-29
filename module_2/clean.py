@@ -9,14 +9,16 @@ def clean_data():
         if entry.get('school_name') is None or entry.get('program') is None or entry.get('date_added') is None:
             continue
 
-        # Clean comment field
+        # Clean all string fields: strip whitespace
+        for key, value in entry.items():
+            if isinstance(value, str):
+                entry[key] = value.strip()
+
+        # Clean comment field: remove \r and \n
         if entry.get('comment') is not None:
-            comment = entry['comment'].replace('\r', '').replace('\n', '').strip()
-            entry['comment'] = comment
+            entry['comment'] = entry['comment'].replace('\r', '').replace('\n', '').strip()
 
         cleaned_data.append(entry)
-
-        
 
     return cleaned_data
 
