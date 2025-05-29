@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+import re
 
 # Url to scape - does not include the page number by itself
 url = "https://www.thegradcafe.com/survey/?page="
@@ -33,39 +34,50 @@ def scrape_data(max_pages=10):
             current_url = f"{url}{page_number}"
             soup = BeautifulSoup(urlopen(current_url), 'html.parser')
             data_table = soup.find('table', class_='tw-min-w-full tw-divide-y tw-divide-gray-300')
-
-        except:
+            if not data_table:
+                break
+        except Exception as e:
+            print(f"Failed on page {page_number}: {e}")
             break
 
-        # grab groupings of data
         groups = data_table.find_all('tr', class_=False)
 
         for group in groups:
-            print(f"Processing group: {group}")
             data = {}
 
             # School Name
-            school_name = group.find('td', class_='tw-font-medium tw-text-gray-900 tw-text-sm')
-            if school_name:
-                data['school_name'] = school_name.get_text(strip=True)
+            school_div = group.find('div', class_='tw-font-medium tw-text-gray-900 tw-text-sm')
+            data['school_name'] = school_div.get_text(strip=True) if school_div else None
+
+            # Program + Degree (2 <span> tags inside div)
+            program_block = group.find('div', class_='tw-text-gray-900')
+            if program_block:
+                spans = program_block.find_all('span')
+                data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
+                data['degree'] = spans[1].get_text(strip=True) if len(spans) > 1 else None
             else:
-                data['school_name'] = None
+                data['program'] = None
+                data['degree'] = None
 
-            # Program Name
-            program_name = group.find('td', class_='tw-text-gray-900')
-            if program_name:
-                data['program_name'] = program_name.get_text(strip=True)
-            else:
-                data['program_name'] = None
+            # Date of Info Added (3rd <td>)
+            tds = group.find_all('td')
+            data['date_added'] = tds[2].get_text(strip=True) if len(tds) >= 3 else None
 
-            if data['program_name'] or data['school_name']:
-                collected_data.append(data)
+            # Decision
+            decision_div = group.find('div', class_=re.compile(r'tw-inline-flex.*'))
+            data['decision'] = decision_div.get_text(strip=True) if decision_div else None
 
-        # Move to the next page
+            # Result URL
+            result_link = group.find('a', href=re.compile(r'^/result/\d+'))
+            data['result_url'] = f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
+
+            collected_data.append(data)
+
         page_number += 1
 
     return collected_data
 
+# Run and print
 entries = scrape_data(3)
 for entry in entries:
     print(entry)
