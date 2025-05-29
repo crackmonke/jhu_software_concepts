@@ -7,14 +7,8 @@ url = "https://www.thegradcafe.com/survey/?page="
 
 
 
-# Program Name
-# o University
+
 # o Comments (if available)
-# o Date of Informa/on Added to Grad Café
-# o URL link to applicant entry
-# o Applicant Status
-# ▪ If Accepted: Acceptance Date
-# ▪ If Rejected: Rejec/on Date
 # o Semester and Year of Program Start (if available)
 # o Interna/onal / American Student (if available)
 # o GRE Score (if available)
