@@ -1,47 +1,10 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
-import re
-
 # Url to scape - does not include the page number by itself
 url = "https://www.thegradcafe.com/survey/?page="
-pattern = r'/result/\d+'
 
-def get_links(max_pages=10):
-    page_number = 1
-    all_links = set()
-
-    while page_number <= max_pages:
-        print(f"Scraping page {page_number}...")
-        try:
-            current_url = f"{url}{page_number}"
-            page = urlopen(current_url)
-            html = page.read().decode('utf-8')
-        except:
-            break
-
-        links = re.findall(pattern, html)
-        if not links:
-            break
-
-        for link in links:
-            all_links.add(link)
-
-        page_number += 1
-
-    return all_links
-
-
-data_container = soup.find('div', class_='tw-flex tw-flex-col lg:tw-flex-row')
-data = data_container.find_all()
-
-
-def scrape_links():
-    links = get_links()
-
-
-
-
+data_table = soup.find('table', class_='tw-min-w-full tw-divide-y tw-divide-gray-300')
 
 # Program Name
 # o University
@@ -58,3 +21,30 @@ def scrape_links():
 # o Masters or PhD (if available)
 # o GPA (if available)
 # o GRE AW (if available)
+
+
+def scrape_data(max_pages=10):
+    page_number = 1
+
+    while page_number <= max_pages:
+        print(f"Scraping page {page_number}...")
+        try:
+            current_url = f"{url}{page_number}"
+            page = urlopen(current_url)
+            html = page.read().decode('utf-8')
+
+        except:
+            break
+
+        # grab groupings of data
+        groups = soup.find_all('tr', class_=False)
+
+        for group in groups:
+            data = {}
+
+
+       
+
+
+
+
