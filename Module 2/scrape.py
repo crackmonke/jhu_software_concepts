@@ -7,11 +7,12 @@ import re
 url = "https://www.thegradcafe.com/survey/?page="
 pattern = r'/result/\d+'
 
-def get_links():
+def get_links(max_pages=10):
     page_number = 1
     all_links = set()
 
-    while True:
+    while page_number <= max_pages:
+        print(f"Scraping page {page_number}...")
         try:
             current_url = f"{url}{page_number}"
             page = urlopen(current_url)
