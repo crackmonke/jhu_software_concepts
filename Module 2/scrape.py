@@ -32,6 +32,10 @@ def get_links(max_pages=10):
     return all_links
 
 
+data_container = soup.find('div', class_='tw-flex tw-flex-col lg:tw-flex-row')
+data = data_container.find_all()
+
+
 def scrape_links():
     links = get_links()
 
