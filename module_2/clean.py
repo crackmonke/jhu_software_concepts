@@ -10,12 +10,13 @@ def clean_data():
             continue
 
         # Clean comment field
-        comment = entry.get('comment', '')
-        if comment is not None:
-            comment = comment.replace('\r', ' ').replace('\n', ' ').strip()
-            entry['comment'] = comment if comment else None
+        if entry.get('comment') is not None:
+            comment = entry['comment'].replace('\r', '').replace('\n', '').strip()
+            entry['comment'] = comment
 
         cleaned_data.append(entry)
+
+        
 
     return cleaned_data
 
