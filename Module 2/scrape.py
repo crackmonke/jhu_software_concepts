@@ -3,18 +3,20 @@ from urllib.request import urlopen
 
 import re
 
-url = "https://www.thegradcafe.com/survey/"
+# Url to scape - does not include the page number by itself
+url = "https://www.thegradcafe.com/survey/?page="
+pattern = r'/result/\d+'
 
-page = urlopen(url)
-html = page.read().decode("utf-8")
+def get_links():
+    page_number = 1
+    all_links = set()
 
-pattern = r'/results/\d+'
+    while True:
+        try:
+            current_url = f"{url}{page_number}"
+            page = urlopen(current_url)
+            html = page.read().decode('utf-8')
+        except:
+            break
 
-def scrape_data():
-    links = re.findall(pattern, html)
-
-    print("Found links:")
-    for link in links:
-        print(link) 
-
-scrape_data()
+    return all_links
