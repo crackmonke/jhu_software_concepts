@@ -93,7 +93,7 @@ def scrape_data(max_pages=10):
                 if comments_row:
                     comment_div = comments_row.find('p', class_='tw-text-gray-500 tw-text-sm tw-my-0')
                     if comment_div:
-                        data['comments'] = comment_div.get_text(strip=True)
+                        data['comment'] = comment_div.get_text(strip=True)
                     
             collected_data.append(data)
 
