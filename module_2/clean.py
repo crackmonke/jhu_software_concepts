@@ -1,8 +1,6 @@
 from scrape import scrape_data
-import json
 
-def clean_data():
-    data = scrape_data(max_pages=3)  # Adjust the number of pages as needed
+def clean_data(data):
 
     cleaned_data = []
     for entry in data:
@@ -23,12 +21,3 @@ def clean_data():
 
     return cleaned_data
 
-def save_data(filename='application_data.json'):
-    cleaned_data = clean_data()
-    if not cleaned_data:
-        print("No valid data to save.")
-        return
-
-    # Save the cleaned data to a JSON file
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(cleaned_data, f, ensure_ascii=False, indent=4)

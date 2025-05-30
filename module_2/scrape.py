@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import re
+import json
+from clean import clean_data
 
 # Url to scape - does not include the page number by itself
 url = "https://www.thegradcafe.com/survey/?page="
@@ -100,3 +102,18 @@ def scrape_data(max_pages=10):
         page_number += 1
 
     return collected_data
+
+def save_data(filename='application_data.json'):
+    cleaned_data = clean_data()
+    if not cleaned_data:
+        print("No valid data to save.")
+        return
+
+    # Save the cleaned data to a JSON file
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(cleaned_data, f, ensure_ascii=False, indent=4)
+
+def main():
+    data = scrape_data(max_pages=3)  # Adjust the number of pages as needed
+    cleaned_data = clean_data(data)
+    save_data(cleaned_data)
