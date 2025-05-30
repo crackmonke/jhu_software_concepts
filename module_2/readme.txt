@@ -31,12 +31,12 @@ This project scrapes graduate school application results from TheGradCafe, clean
 - Python 3.x
 - See `requirements.txt` for package versions.
 
-1. Name: Savannah Greeley, [Your JHED ID]
+1. Name: Savannah Greeley, 26CF07
 
 2. Module Info:
-   - Module: Module 2 – Web Scraping and Data Cleaning
-   - Assignment: GradCafe Scraper
-   - Due Date: [Insert Due Date]
+   - Module: Module 2 – Web Scraping
+   - Assignment: Module 2 - Assignment: Web Scraping
+   - Due Date: June 2nd 11:59 PM EST
 
 3. Approach:
    For this assignment, I created a Python project to scrape graduate school application results from TheGradCafe website. My approach included the following steps:
