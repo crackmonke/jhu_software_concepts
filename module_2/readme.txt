@@ -23,7 +23,7 @@ This project scrapes graduate school application results from TheGradCafe, clean
 
 ## Notes
 
-- By default, the scraper fetches up to 10 pages of results.  
+- By default, the scraper fetches up to 1000 pages of results.  
 - **To change the number of pages scraped:**  
   Open `scrape.py` and modify the value passed to `scrape_data(max_pages=...)` in the `if __name__ == "__main__":` block at the bottom of the file.  
   For example, to scrape 5 pages, change it to `scrape_data(max_pages=5)`.

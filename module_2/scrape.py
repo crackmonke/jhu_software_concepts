@@ -134,7 +134,7 @@ def save_data(cleaned_data, filename='application_data.json'):
 # Main execution
 if __name__ == "__main__":
     # Scrape data from the website (adjust max_pages as needed)
-    data = scrape_data(max_pages=3)
+    data = scrape_data(max_pages=1000)
     # Clean the scraped data using the clean_data function from clean.py
     cleaned_data = clean_data(data)
     # Save the cleaned data to a JSON file and print a summary
