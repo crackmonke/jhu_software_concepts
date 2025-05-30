@@ -131,3 +131,6 @@ def save_data(filename='application_data.json'):
         json.dump(cleaned_data, f, ensure_ascii=False, indent=4)
 
 
+data = scrape_data(max_pages=3)  # Adjust the number of pages as needed
+cleaned_data = clean_data(data)
+save_data(cleaned_data)
