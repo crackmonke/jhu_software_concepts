@@ -1,13 +1,13 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from clean import clean_data
 import re
 import json
-from clean import clean_data
 
 # Url to scrape - does not include the page number by itself
 url = "https://www.thegradcafe.com/survey/?page="
 
-def scrape_data(max_pages=10):
+def scrape_data(max_pages):
     """
     Scrapes application data from TheGradCafe for a given number of pages.
     Returns a list of dictionaries, each representing an application entry.
@@ -117,11 +117,7 @@ def scrape_data(max_pages=10):
 
     return collected_data
 
-def save_data(filename='application_data.json'):
-    """
-    Cleans the scraped data and saves it to a JSON file.
-    """
-    cleaned_data = clean_data()
+def save_data(cleaned_data, filename='application_data.json'):
     if not cleaned_data:
         print("No valid data to save.")
         return

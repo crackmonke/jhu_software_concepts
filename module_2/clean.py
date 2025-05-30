@@ -1,5 +1,4 @@
 import re
-from scrape import scrape_data
 
 def clean_data(data):
     # Initialize a list to hold cleaned entries
