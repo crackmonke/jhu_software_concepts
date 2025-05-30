@@ -118,6 +118,9 @@ def scrape_data(max_pages):
     return collected_data
 
 def save_data(cleaned_data, filename='application_data.json'):
+    """
+    Saves the cleaned data to a JSON file and prints a summary.
+    """
     if not cleaned_data:
         print("No valid data to save.")
         return
@@ -125,8 +128,14 @@ def save_data(cleaned_data, filename='application_data.json'):
     # Save the cleaned data to a JSON file
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(cleaned_data, f, ensure_ascii=False, indent=4)
+    # Print confirmation with file name and number of entries
+    print(f"Data was saved to '{filename}' and contains {len(cleaned_data)} entries.")
 
-
-data = scrape_data(max_pages=3)  # Adjust the number of pages as needed
-cleaned_data = clean_data(data)
-save_data(cleaned_data)
+# Main execution
+if __name__ == "__main__":
+    # Scrape data from the website (adjust max_pages as needed)
+    data = scrape_data(max_pages=3)
+    # Clean the scraped data using the clean_data function from clean.py
+    cleaned_data = clean_data(data)
+    # Save the cleaned data to a JSON file and print a summary
+    save_data(cleaned_data)
