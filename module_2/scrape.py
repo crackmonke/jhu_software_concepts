@@ -131,6 +131,24 @@ def save_data(cleaned_data, filename='application_data.json'):
     # Print confirmation with file name and number of entries
     print(f"Data was saved to '{filename}' and contains {len(cleaned_data)} entries.")
 
+
+def load_data(filename='application_data.json', print_entries=False):
+    """
+    Loads data from a JSON file and optionally prints the data.
+    """
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            if print_entries:
+                print("Loaded data:")
+                for entry in data:
+                    print(entry)
+            return data
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON from file '{filename}'.")
+
 # Main execution
 if __name__ == "__main__":
     # Scrape data from the website (adjust max_pages as needed)
@@ -139,3 +157,9 @@ if __name__ == "__main__":
     cleaned_data = clean_data(data)
     # Save the cleaned data to a JSON file and print a summary
     save_data(cleaned_data)
+    
+    # Ask the user if they want to print the loaded data
+    user_input = input("Would you like to print the loaded data? (y/n): ").strip().lower()
+    print_entries = user_input == 'y'
+    loaded_data = load_data(print_entries=print_entries)
+
