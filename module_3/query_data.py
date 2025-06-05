@@ -64,6 +64,21 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(0, 10, "GradCafe Database Query Results", ln=True, align='C')
 pdf.ln(5)
+
+# Add description of the query and why
+pdf.set_font("Arial", style="B", size=12)
+pdf.cell(0, 10, "Description of Query and Purpose:", ln=True)
+pdf.set_font("Arial", size=12)
+description = (
+    "This report summarizes key statistics from the GradCafe applicant database for Fall 2025. "
+    "The queries were designed to answer specific questions about the applicant pool, including the number of entries, "
+    "percentage of international students, average academic metrics, and details about specific subgroups such as American applicants, "
+    "acceptances, and those applying to JHU for a master's in Computer Science. The purpose is to provide a data-driven overview of the "
+    "application trends and outcomes for this admissions cycle."
+)
+pdf.multi_cell(0, 10, description)
+pdf.ln(5)
+
 for q, a in qa:
     pdf.multi_cell(0, 10, f"Q: {q}\nA: {a}", align='L')
     pdf.ln(2)
