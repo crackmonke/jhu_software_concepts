@@ -39,7 +39,7 @@ for item in data:
         us_or_international = item['international_american']
         gpa = parse_float(item.get('gpa'))
         gre_v = parse_float(item.get('gre_v_score'))
-        gre_aw = parse_float(item.get('gre_aw_score'))
+        gre_aw = parse_float(item.get('gre_aw'))
         gre = parse_float(item.get('gre_score'))
         comments = item.get('comment')
 
