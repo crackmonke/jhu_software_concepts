@@ -1,4 +1,5 @@
 import psycopg2
+from fpdf import FPDF
 
 conn = psycopg2.connect(
     host="localhost",
@@ -46,6 +47,28 @@ print(f"6. Avg GPA of Fall 2025 Acceptances: {avg_gpa_accept_fall2025}")
 cur.execute("SELECT COUNT(*) FROM applicant WHERE program ILIKE '%Johns Hopkins%' AND degree ILIKE '%Master%' AND program ILIKE '%Computer Science%';")
 jhu_masters_cs_count = cur.fetchall()[0][0]
 print(f"7. JHU Masters Computer Science entries: {jhu_masters_cs_count}")
+
+# Prepare Q&A for PDF
+qa = [
+    ("1. How many entries do you have in your database who have applied for Fall 2025?", f"{fall_2025_count}"),
+    ("2. What percentage of entries are from international students (not American)? (to two decimal places)", f"{percent_international:.2f}%"),
+    ("3. What is the average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics?", f"GPA: {avg_gpa}, GRE: {avg_gre}, GRE V: {avg_gre_v}, GRE AW: {avg_gre_aw}"),
+    ("4. What is their average GPA of American students in Fall 2025?", f"{avg_gpa_american_fall2025}"),
+    ("5. What percent of entries for Fall 2025 are Acceptances (to two decimal places)?", f"{percent_accept:.2f}%"),
+    ("6. What is the average GPA of applicants who applied for Fall 2025 who are Acceptances?", f"{avg_gpa_accept_fall2025}"),
+    ("7. How many entries are from applicants who applied to JHU for a masters degrees in Computer Science?", f"{jhu_masters_cs_count}")
+]
+
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial", size=12)
+pdf.cell(0, 10, "GradCafe Database Query Results", ln=True, align='C')
+pdf.ln(5)
+for q, a in qa:
+    pdf.multi_cell(0, 10, f"Q: {q}\nA: {a}", align='L')
+    pdf.ln(2)
+
+pdf.output("query_results.pdf")
 
 cur.close()
 conn.close()
