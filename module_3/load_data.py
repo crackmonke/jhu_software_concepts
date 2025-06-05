@@ -28,7 +28,7 @@ def parse_float(val):
     except Exception:
         return None
 
-with open(r'c:\Users\savyg\Documents\jhu_software_concepts\module_2\application_data.json', 'r', encoding='utf-8') as f:
+with open('application_data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 for item in data:

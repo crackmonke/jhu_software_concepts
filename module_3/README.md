@@ -28,7 +28,7 @@ module_3/
      \i create_applicant_table.sql
      ```
 3. **Import Data**
-   - Place your JSON data file at the specified path in `load_data.py`.
+   - The JSON data file `application_data.json` is already included in this folder by default. No path changes are needed.
    - Run:
      ```powershell
      python load_data.py
@@ -50,5 +50,7 @@ module_3/
 - Make sure your PostgreSQL server is running and accessible.
 - The requirements.txt is in pip freeze format for easy environment replication.
 
-## License
-This project is for educational use.
+---
+
+This README was generated with the help of GitHub Copilot.
+
