@@ -23,21 +23,22 @@ module_3/
    ```
 2. **Set up PostgreSQL**
    - Create a database named `GradCafe`.
-   - Create the `applicant` table by running:
-     ```sql
-     \i create_applicant_table.sql
-     ```
+   - You do not need to manually create the `applicant` table. The table and its column descriptions will be created automatically when you run `load_data.py`.
 3. **Import Data**
    - The JSON data file `application_data.json` is already included in this folder by default. No path changes are needed.
    - Run:
      ```powershell
      python load_data.py
      ```
+   - This will also create the `applicant` table if it does not exist.
 4. **Run Analysis and Generate PDF**
-   ```powershell
-   python query_data.py
-   ```
-   This will create `query_results.pdf` with the analysis results.
+   - This step will run analysis queries on your database and generate a PDF report (`query_results.pdf`) with the results.
+   - Run:
+     ```powershell
+     python query_data.py
+     ```
+   - The script will prompt you for your PostgreSQL username and password (default username: postgres, no default password).
+   - The PDF will be created in the current directory.
 5. **Run the Flask Web App**
    - From the `module_3` directory, run:
      ```powershell
