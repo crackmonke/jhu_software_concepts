@@ -3,11 +3,19 @@ import json
 from datetime import datetime
 
 
+# Prompt for PostgreSQL username and password, with defaults
+host = "localhost"
+database = "GradCafe"
+def_username = "postgres"
+
+username = input(f"Enter PostgreSQL username (default: {def_username}): ") or def_username
+password = input("Enter PostgreSQL password: ")
+
 conn = psycopg2.connect(
-    host="localhost",
-    database="GradCafe",
-    user="postgres",  
-    password="sav"  
+    host=host,
+    database=database,
+    user=username,
+    password=password
 )
 
 cur = conn.cursor()
