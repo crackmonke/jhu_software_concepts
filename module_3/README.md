@@ -23,10 +23,7 @@ module_3/
    ```
 2. **Set up PostgreSQL**
    - Create a database named `GradCafe`.
-   - Create the `applicant` table by running:
-     ```sql
-     \i create_applicant_table.sql
-     ```
+   - You do not need to manually create the `applicant` table. The table and its column descriptions will be created automatically when you run `load_data.py`.
 3. **Import Data**
    - The JSON data file `application_data.json` is already included in this folder by default. No path changes are needed.
    - Run:
