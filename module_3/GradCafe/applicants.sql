@@ -8,8 +8,8 @@ CREATE TABLE [dbo].[ApplicationData] (
   term TEXT NOT NULL, -- was semester_year
   us_or_international TEXT NOT NULL, -- was international_american
   gpa FLOAT NULL,
-  gre_v_score FLOAT NULL,
-  gre_aw_score FLOAT NULL,
-  gre_score FLOAT NULL,
+  gre_v FLOAT NULL,
+  gre_aw FLOAT NULL,
+  gre_ FLOAT NULL,
   comments TEXT NULL -- was comment
 )
