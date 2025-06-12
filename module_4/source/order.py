@@ -16,28 +16,38 @@ class Order:
         return order_details
 
     def input_pizza(self, crust, sauce, cheese, toppings):
-        # Inputs the customer's order for a given pizza
         from source.pizza import Pizza
 
         ordering = "yes"
         while ordering == "yes":
-            crust = input("Enter crust type (Thin, Thick, Gluten Free): ")
-            if crust not in Pizza.crusts:
+            # Crust input
+            while True:
+                crust = input("Enter crust type (Thin, Thick, Gluten Free): ").strip().title()
+                if crust in Pizza.crusts:
+                    break
                 print("Invalid crust type. Please try again.")
-                continue
-            sauce = input("Enter sauce type (Marinara, Pesto, Liv Sauce): ")
-            if sauce not in Pizza.sauces:
+
+            # Sauce input
+            while True:
+                sauce = input("Enter sauce type (Marinara, Pesto, Liv Sauce): ").strip().title()
+                if sauce in Pizza.sauces:
+                    break
                 print("Invalid sauce type. Please try again.")
-                continue
-            cheese = input("Enter cheese type (Mozzarella): ")
-            if cheese not in Pizza.cheeses:
+
+            # Cheese input
+            while True:
+                cheese = input("Enter cheese type (Mozzarella): ").strip().title()
+                if cheese in Pizza.cheeses:
+                    break
                 print("Invalid cheese type. Please try again.")
-                continue
-            toppings = input("Enter toppings (Pineapple, Pepperoni, Mushrooms), separated by commas: ").split(", ")
-            toppings = [topping.strip() for topping in toppings if topping.strip() in Pizza.toppings]
-            if not toppings:
+
+            # Toppings input
+            while True:
+                toppings_input = input("Enter toppings (Pineapple, Pepperoni, Mushrooms), separated by commas: ")
+                toppings = [t.strip().title() for t in toppings_input.split(",") if t.strip().title() in Pizza.toppings]
+                if toppings:
+                    break
                 print("Invalid toppings. Please try again.")
-                continue
 
             pizza = Pizza(crust, sauce, cheese, toppings)
             self.pizzas.append(pizza)
