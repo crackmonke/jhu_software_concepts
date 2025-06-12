@@ -52,6 +52,9 @@ class Order:
             self.cost += pizza.cost()
 
             ordering = input("Would you like to add another pizza? (yes/no): ").strip().lower()
+            if ordering not in ["yes", "no"]:
+                print("Invalid input. Please enter 'yes' or 'no'.")
+                continue
 
         return self.pizzas
     
