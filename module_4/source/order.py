@@ -51,10 +51,13 @@ class Order:
             self.pizzas.append(pizza)
             self.cost += pizza.cost()
 
-            ordering = input("Would you like to add another pizza? (yes/no): ").strip().lower()
-            if ordering not in ["yes", "no"]:
+            while True:
+                ordering = input("Would you like to add another pizza? (yes/no): ").strip().lower()
+                if ordering in ["yes", "no"]:
+                    break
                 print("Invalid input. Please enter 'yes' or 'no'.")
-                continue
+            if ordering == "no":
+                break
 
         return self.pizzas
     
@@ -67,4 +70,3 @@ class Order:
             print("Thank you for your payment!")
         else:
             print("Please complete the payment to finalize your order.")
-        
