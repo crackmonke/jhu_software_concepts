@@ -24,15 +24,28 @@ class Order:
         #Inputs the customers order for a given pizza
         #Initalize the pizza object and attach to the order
         #Update the cost
-        from pizza import Pizza
+        from source.pizza import Pizza
 
         ordering = "yes"
 
         while ordering == "yes":
             crust = input("Enter crust type (Thin, Thick, Gluten Free): ")
+            if crust not in Pizza.crusts:
+                print("Invalid crust type. Please try again.")
+                continue
             sauce = input("Enter sauce type (Marinara, Pesto, Liv Sauce): ")
+            if sauce not in Pizza.sauces:
+                print("Invalid sauce type. Please try again.")
+                continue
             cheese = input("Enter cheese type (Mozzarella): ")
+            if cheese not in Pizza.cheeses:
+                print("Invalid cheese type. Please try again.")
+                continue
             toppings = input("Enter toppings (Pineapple, Pepperoni, Mushrooms), separated by commas: ").split(", ")
+            toppings = [topping.strip() for topping in toppings if topping.strip() in Pizza.toppings]
+            if not toppings:
+                print("Invalid toppings. Please try again.")
+                continue
 
             pizza = Pizza(crust, sauce, cheese, toppings)
             self.pizzas.append(pizza)
