@@ -5,6 +5,14 @@ from source.pizza import Pizza
 @pytest.mark.order
 @pytest.mark.pizza
 def test_order_multiple_pizzas_cost_additive():
+    """
+    Integration test to ensure multiple pizzas in an order result in an additive cost.
+
+    Asserts
+    -------
+    - The order contains two pizzas.
+    - The total cost is the sum of the individual pizza costs.
+    """
     order = Order()
     pizza1 = Pizza("Thin", ["Marinara"], "Mozzarella", ["Pepperoni"])
     pizza2 = Pizza("Thick", ["Pesto"], "Mozzarella", ["Mushrooms"])
