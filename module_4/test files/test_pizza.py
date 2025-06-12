@@ -24,6 +24,6 @@ def test_pizza_str():
 
 @pytest.mark.pizza
 def test_pizza_cost_correct():
-    pizza = Pizza("Thin", "Marinara", "Mozzarella", ["Pepperoni"])
+    pizza = Pizza("Thin", ["Marinara"], "Mozzarella", ["Pepperoni"])
     expected = 5 + 2 + 0 + 2  # Thin + Marinara + Mozzarella + Pepperoni
     assert pizza.cost() == expected

@@ -12,11 +12,11 @@ def test_order_init():
 @pytest.mark.order
 def test_order_str():
     order = Order()
-    pizza = Pizza("Thin", "Marinara", "Mozzarella", ["Pepperoni"])
+    pizza = Pizza("Thin", ["Marinara"], "Mozzarella", ["Pepperoni"])
     order.pizzas.append(pizza)
     order.cost += pizza.cost()
     result = str(order)
-    assert "Customer" in result
+    assert result.startswith("Customer Requested:")
     assert "Total Cost" in result
     assert "Pepperoni" in result
 
@@ -34,6 +34,8 @@ def test_order_input_pizza_updates_cost(monkeypatch):
 @pytest.mark.order
 def test_order_paid(monkeypatch):
     order = Order()
-    monkeypatch.setattr("builtins.input", lambda _: "yes")
+    # Simulate payment type input
+    inputs = iter(["card"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     order.order_paid()
     assert order.paid is True

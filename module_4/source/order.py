@@ -26,12 +26,19 @@ class Order:
                     break
                 print("Invalid crust type. Please try again.")
 
-            # Sauce input
+            # Sauces input (multiple, no duplicates)
             while True:
-                sauce = input("Enter sauce type (Marinara, Pesto, Liv Sauce): ").strip().title()
-                if sauce in Pizza.sauces:
+                sauces_input = input("Enter sauces (Marinara, Pesto, Liv Sauce), separated by commas: ")
+                sauces_list = [s.strip().title() for s in sauces_input.split(",")]
+                sauces = []
+                seen_sauces = set()
+                for s in sauces_list:
+                    if s in Pizza.sauces and s not in seen_sauces:
+                        sauces.append(s)
+                        seen_sauces.add(s)
+                if sauces:
                     break
-                print("Invalid sauce type. Please try again.")
+                print("Invalid sauces. Please try again.")
 
             # Cheese input
             while True:
@@ -44,7 +51,6 @@ class Order:
             while True:
                 toppings_input = input("Enter toppings (Pineapple, Pepperoni, Mushrooms), separated by commas: ")
                 toppings_list = [t.strip().title() for t in toppings_input.split(",")]
-                # Remove duplicates and filter valid toppings
                 toppings = []
                 seen = set()
                 for t in toppings_list:
@@ -55,7 +61,7 @@ class Order:
                     break
                 print("Invalid toppings. Please try again.")
 
-            pizza = Pizza(crust, sauce, cheese, toppings)
+            pizza = Pizza(crust, sauces, cheese, toppings)
             self.pizzas.append(pizza)
             self.cost += pizza.cost()
 
