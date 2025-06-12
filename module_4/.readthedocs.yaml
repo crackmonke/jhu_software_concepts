@@ -1,0 +1,12 @@
+# Read the Docs configuration file
+
+version: 2
+
+# Build documentation with Sphinx
+sphinx:
+  configuration: source/conf.py
+
+# Install Python dependencies
+python:
+  install:
+    - requirements: requirements.txt
