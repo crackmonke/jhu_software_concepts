@@ -35,7 +35,7 @@ class Order:
         order_details += f"Total Cost: ${self.cost:.2f}\n"
         return order_details
 
-    def input_pizza(self, crust, sauce, cheese, toppings):
+    def input_pizza(self, crust, sauces, cheese, toppings):
         """
         Interactively prompt the user to build one or more pizzas for the order.
 
