@@ -77,33 +77,39 @@ def main():
             'decision', 'result_url', 'semester_year', 'international_american'
         ]
         if all(field in item for field in required):
-            program = none_if_empty(f"{item['school_name']} - {item['program']}")
-            degree = none_if_empty(item['degree'])
+            applicant = {
+                "program": none_if_empty(f"{item['school_name']} - {item['program']}"),
+                "degree": none_if_empty(item['degree']),
+                "date_added": None,
+                "status": none_if_empty(item['decision']),
+                "url": none_if_empty(item['result_url']),
+                "term": none_if_empty(item['semester_year']),
+                "us_or_international": none_if_empty(item['international_american']),
+                "gpa": parse_float(item.get('gpa')),
+                "gre_v": parse_float(item.get('gre_v_score')),
+                "gre_aw": parse_float(item.get('gre_aw')),
+                "gre": parse_float(item.get('gre_score')),
+                "comments": none_if_empty(item.get('comment'))
+            }
             try:
-                date_added = datetime.strptime(
+                applicant["date_added"] = datetime.strptime(
                     item['date_added'], '%b %d, %Y'
                 ).date()
             except (ValueError, TypeError):
-                date_added = None
-            status = none_if_empty(item['decision'])
-            url = none_if_empty(item['result_url'])
-            term = none_if_empty(item['semester_year'])
-            us_or_international = none_if_empty(item['international_american'])
-            gpa = parse_float(item.get('gpa'))
-            gre_v = parse_float(item.get('gre_v_score'))
-            gre_aw = parse_float(item.get('gre_aw'))
-            gre = parse_float(item.get('gre_score'))
-            comments = none_if_empty(item.get('comment'))
+                applicant["date_added"] = None
 
             cur.execute(
                 """
                 INSERT INTO applicant
-                (program, degree, date_added, status, url, term, us_or_international, gpa, gre_v, gre_aw, gre, comments)
+                (program, degree, date_added, status, url, term, us_or_international,
+                 gpa, gre_v, gre_aw, gre, comments)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
-                    program, degree, date_added, status, url, term,
-                    us_or_international, gpa, gre_v, gre_aw, gre, comments
+                    applicant["program"], applicant["degree"], applicant["date_added"],
+                    applicant["status"], applicant["url"], applicant["term"],
+                    applicant["us_or_international"], applicant["gpa"], applicant["gre_v"],
+                    applicant["gre_aw"], applicant["gre"], applicant["comments"]
                 )
             )
 
