@@ -58,11 +58,14 @@ cur.execute("""
 
 def parse_float(val):
     try:
-        if val is None:
+        if val is None or val == '':
             return None
         return float(''.join(c for c in str(val) if c.isdigit() or c == '.'))
     except Exception:
         return None
+
+def none_if_empty(val):
+    return val if val not in (None, '') else None
 
 with open('application_data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -71,21 +74,21 @@ for item in data:
     # Only insert if required fields are present
     if 'school_name' in item and 'program' in item and 'degree' in item and 'date_added' in item and \
        'decision' in item and 'result_url' in item and 'semester_year' in item and 'international_american' in item:
-        program = f"{item['school_name']} - {item['program']}"
-        degree = item['degree']
+        program = none_if_empty(f"{item['school_name']} - {item['program']}")
+        degree = none_if_empty(item['degree'])
         try:
             date_added = datetime.strptime(item['date_added'], '%b %d, %Y').date()
         except Exception:
             date_added = None
-        status = item['decision']
-        url = item['result_url']
-        term = item['semester_year']
-        us_or_international = item['international_american']
+        status = none_if_empty(item['decision'])
+        url = none_if_empty(item['result_url'])
+        term = none_if_empty(item['semester_year'])
+        us_or_international = none_if_empty(item['international_american'])
         gpa = parse_float(item.get('gpa'))
         gre_v = parse_float(item.get('gre_v_score'))
         gre_aw = parse_float(item.get('gre_aw'))
         gre = parse_float(item.get('gre_score'))
-        comments = item.get('comment')
+        comments = none_if_empty(item.get('comment'))
 
         cur.execute(
             """
