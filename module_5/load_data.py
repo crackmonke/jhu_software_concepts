@@ -80,7 +80,9 @@ def main():
             program = none_if_empty(f"{item['school_name']} - {item['program']}")
             degree = none_if_empty(item['degree'])
             try:
-                date_added = datetime.strptime(item['date_added'], '%b %d, %Y').date()
+                date_added = datetime.strptime(
+                    item['date_added'], '%b %d, %Y'
+                ).date()
             except (ValueError, TypeError):
                 date_added = None
             status = none_if_empty(item['decision'])
@@ -99,7 +101,10 @@ def main():
                 (program, degree, date_added, status, url, term, us_or_international, gpa, gre_v, gre_aw, gre, comments)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
-                (program, degree, date_added, status, url, term, us_or_international, gpa, gre_v, gre_aw, gre, comments)
+                (
+                    program, degree, date_added, status, url, term,
+                    us_or_international, gpa, gre_v, gre_aw, gre, comments
+                )
             )
 
     conn.commit()

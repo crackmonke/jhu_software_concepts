@@ -41,7 +41,7 @@ cur.execute(
 )
 avg_gpa, avg_gre, avg_gre_v, avg_gre_aw = cur.fetchall()[0]
 print(
-    f"3. Averages (GPA, GRE, GRE V, GRE AW): "
+    "3. Averages (GPA, GRE, GRE V, GRE AW): "
     f"{avg_gpa}, {avg_gre}, {avg_gre_v}, {avg_gre_aw}"
 )
 
