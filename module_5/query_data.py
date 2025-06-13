@@ -2,6 +2,7 @@
 
 import psycopg2
 from fpdf import FPDF
+from psycopg2 import sql
 
 HOST = "localhost"
 DATABASE = "GradCafe"
@@ -17,68 +18,122 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # 1. How many entries for Fall 2025?
-cur.execute(
-    "SELECT COUNT(*) FROM applicant WHERE term ILIKE '%Fall 2025%';"
+stmt_fall_2025 = sql.SQL(
+    "SELECT COUNT(*) FROM {table} WHERE {col} ILIKE {pattern} LIMIT 1"
+).format(
+    table=sql.Identifier('applicant'),
+    col=sql.Identifier('term'),
+    pattern=sql.Literal('%Fall 2025%')
 )
-fall_2025_count = cur.fetchall()[0][0]
+cur.execute(stmt_fall_2025)
+fall_2025_count = cur.fetchone()[0]
 print(f"1. Entries for Fall 2025: {fall_2025_count}")
 
 # 2. Percentage of international students (not American)
-cur.execute(
-    "SELECT COUNT(*) FROM applicant WHERE us_or_international ILIKE '%International%';"
+stmt_international = sql.SQL(
+    "SELECT COUNT(*) FROM {table} WHERE {col} ILIKE {pattern} LIMIT 1"
+).format(
+    table=sql.Identifier('applicant'),
+    col=sql.Identifier('us_or_international'),
+    pattern=sql.Literal('%International%')
 )
-international_count = cur.fetchall()[0][0]
-cur.execute("SELECT COUNT(*) FROM applicant;")
-total_count = cur.fetchall()[0][0]
+cur.execute(stmt_international)
+international_count = cur.fetchone()[0]
+
+stmt_total = sql.SQL(
+    "SELECT COUNT(*) FROM {table} LIMIT 1"
+).format(
+    table=sql.Identifier('applicant')
+)
+cur.execute(stmt_total)
+total_count = cur.fetchone()[0]
 percent_international = (international_count / total_count * 100) if total_count else 0
 print(f"2. Percentage international: {percent_international:.2f}%")
 
 # 3. Average GPA, GRE, GRE V, GRE AW (where provided)
-cur.execute(
-    "SELECT AVG(gpa), AVG(gre), AVG(gre_v), AVG(gre_aw) "
-    "FROM applicant WHERE gpa IS NOT NULL OR gre IS NOT NULL "
-    "OR gre_v IS NOT NULL OR gre_aw IS NOT NULL;"
+stmt_avg_scores = sql.SQL(
+    "SELECT AVG({gpa}), AVG({gre}), AVG({gre_v}), AVG({gre_aw}) "
+    "FROM {table} WHERE {gpa} IS NOT NULL OR {gre} IS NOT NULL "
+    "OR {gre_v} IS NOT NULL OR {gre_aw} IS NOT NULL LIMIT 1"
+).format(
+    gpa=sql.Identifier('gpa'),
+    gre=sql.Identifier('gre'),
+    gre_v=sql.Identifier('gre_v'),
+    gre_aw=sql.Identifier('gre_aw'),
+    table=sql.Identifier('applicant')
 )
-avg_gpa, avg_gre, avg_gre_v, avg_gre_aw = cur.fetchall()[0]
+cur.execute(stmt_avg_scores)
+avg_gpa, avg_gre, avg_gre_v, avg_gre_aw = cur.fetchone()
 print(
     "3. Averages (GPA, GRE, GRE V, GRE AW): "
     f"{avg_gpa}, {avg_gre}, {avg_gre_v}, {avg_gre_aw}"
 )
 
 # 4. Average GPA of American students in Fall 2025
-cur.execute(
-    "SELECT AVG(gpa) FROM applicant "
-    "WHERE us_or_international ILIKE '%American%' "
-    "AND term ILIKE '%Fall 2025%' AND gpa IS NOT NULL;"
+stmt_avg_gpa_american_fall2025 = sql.SQL(
+    "SELECT AVG({gpa}) FROM {table} "
+    "WHERE {us_or_intl} ILIKE {american} AND {term} ILIKE {fall2025} "
+    "AND {gpa} IS NOT NULL LIMIT 1"
+).format(
+    gpa=sql.Identifier('gpa'),
+    table=sql.Identifier('applicant'),
+    us_or_intl=sql.Identifier('us_or_international'),
+    american=sql.Literal('%American%'),
+    term=sql.Identifier('term'),
+    fall2025=sql.Literal('%Fall 2025%')
 )
-avg_gpa_american_fall2025 = cur.fetchall()[0][0]
+cur.execute(stmt_avg_gpa_american_fall2025)
+avg_gpa_american_fall2025 = cur.fetchone()[0]
 print(f"4. Avg GPA of American students in Fall 2025: {avg_gpa_american_fall2025}")
 
 # 5. Percent of Fall 2025 entries that are Acceptances
-cur.execute(
-    "SELECT COUNT(*) FROM applicant "
-    "WHERE term ILIKE '%Fall 2025%' AND status ILIKE '%Accept%';"
+stmt_accept_count = sql.SQL(
+    "SELECT COUNT(*) FROM {table} "
+    "WHERE {term} ILIKE {fall2025} AND {status} ILIKE {accept} LIMIT 1"
+).format(
+    table=sql.Identifier('applicant'),
+    term=sql.Identifier('term'),
+    fall2025=sql.Literal('%Fall 2025%'),
+    status=sql.Identifier('status'),
+    accept=sql.Literal('%Accept%')
 )
-accept_count = cur.fetchall()[0][0]
+cur.execute(stmt_accept_count)
+accept_count = cur.fetchone()[0]
 percent_accept = (accept_count / fall_2025_count * 100) if fall_2025_count else 0
 print(f"5. Percent Acceptances in Fall 2025: {percent_accept:.2f}%")
 
 # 6. Average GPA of Fall 2025 Acceptances
-cur.execute(
-    "SELECT AVG(gpa) FROM applicant "
-    "WHERE term ILIKE '%Fall 2025%' AND status ILIKE '%Accept%' AND gpa IS NOT NULL;"
+stmt_avg_gpa_accept_fall2025 = sql.SQL(
+    "SELECT AVG({gpa}) FROM {table} "
+    "WHERE {term} ILIKE {fall2025} AND {status} ILIKE {accept} "
+    "AND {gpa} IS NOT NULL LIMIT 1"
+).format(
+    gpa=sql.Identifier('gpa'),
+    table=sql.Identifier('applicant'),
+    term=sql.Identifier('term'),
+    fall2025=sql.Literal('%Fall 2025%'),
+    status=sql.Identifier('status'),
+    accept=sql.Literal('%Accept%')
 )
-avg_gpa_accept_fall2025 = cur.fetchall()[0][0]
+cur.execute(stmt_avg_gpa_accept_fall2025)
+avg_gpa_accept_fall2025 = cur.fetchone()[0]
 print(f"6. Avg GPA of Fall 2025 Acceptances: {avg_gpa_accept_fall2025}")
 
 # 7. Entries for JHU, Masters, Computer Science
-cur.execute(
-    "SELECT COUNT(*) FROM applicant "
-    "WHERE program ILIKE '%Johns Hopkins%' "
-    "AND degree ILIKE '%Master%' "
-    "AND program ILIKE '%Computer Science%';"
+stmt_jhu_masters_cs = sql.SQL(
+    "SELECT COUNT(*) FROM {table} "
+    "WHERE {program} ILIKE {jhu} AND {degree} ILIKE {masters} "
+    "AND {program} ILIKE {cs} LIMIT 1"
+).format(
+    table=sql.Identifier('applicant'),
+    program=sql.Identifier('program'),
+    jhu=sql.Literal('%Johns Hopkins%'),
+    degree=sql.Identifier('degree'),
+    masters=sql.Literal('%Master%'),
+    cs=sql.Literal('%Computer Science%')
 )
-jhu_masters_cs_count = cur.fetchall()[0][0]
+cur.execute(stmt_jhu_masters_cs)
+jhu_masters_cs_count = cur.fetchone()[0]
 print(f"7. JHU Masters Computer Science entries: {jhu_masters_cs_count}")
 
 # Prepare Q&A for PDF
