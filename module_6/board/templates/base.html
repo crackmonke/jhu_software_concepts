@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Include the navigation bar partial template -->
+  {% include("_navigation.html") %}
+  <!-- Set the page title, can be overridden by child templates -->
+  <title>{% block title %}{% endblock title %}</title>
+  <!-- Link to the main stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<section>
+  <header>
+    <!-- Header block for child templates to override -->
+    {% block header %}{% endblock header %}
+  </header>
+  <main>
+    <!-- Main content block, default message if not overridden -->
+    {% block content %}<p>No messages.</p>{% endblock content %}
+  </main>
+</section>
+</body>
+</html>
