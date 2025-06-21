@@ -1,11 +1,13 @@
+"""Module for checking robots.txt permissions."""
+
 from urllib import parse, robotparser
 
-agent = "Savy"
-url = "https://www.thegradcafe.com/survey/"
+AGENT = "Savy"
+URL = "https://www.thegradcafe.com/survey/"
 
-parser = robotparser.RobotFileParser(url)
-parser.set_url(parse.urljoin(url, "robots.txt"))
-parser.read()
+PARSER = robotparser.RobotFileParser(URL)
+PARSER.set_url(parse.urljoin(URL, "robots.txt"))
+PARSER.read()
 
-if parser.can_fetch(agent, url):
-    print(f"{agent} is allowed to access {url}")
+if PARSER.can_fetch(AGENT, URL):
+    print(f"{AGENT} is allowed to access {URL}")
