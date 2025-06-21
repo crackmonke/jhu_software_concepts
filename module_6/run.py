@@ -1,3 +1,5 @@
+"""Entry point for running the Flask application."""
+
 # Import the create_app function from the board module
 from board import create_app
 
