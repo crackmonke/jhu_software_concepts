@@ -9,6 +9,74 @@ from clean import clean_data
 
 URL = "https://www.thegradcafe.com/survey/?page="
 
+def parse_group(group):
+    """Parse a single group row and return a data dictionary."""
+    data = {}
+    school_div = group.find(
+        'div',
+        class_='tw-font-medium tw-text-gray-900 tw-text-sm'
+    )
+    data['school_name'] = school_div.get_text(strip=True) if school_div else None
+
+    program_td = group.find_all('td')[1] if len(group.find_all('td')) > 1 else None
+    if program_td:
+        program_div = program_td.find('div', class_='tw-text-gray-900')
+        if program_div:
+            spans = program_div.find_all('span')
+            data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
+            degree_span = program_div.find_next('span', class_='tw-text-gray-500')
+            data['degree'] = degree_span.get_text(strip=True) if degree_span else None
+        else:
+            data['program'] = None
+            data['degree'] = None
+    else:
+        data['program'] = None
+        data['degree'] = None
+
+    tds = group.find_all('td')
+    data['date_added'] = tds[2].get_text(strip=True) if len(tds) >= 3 else None
+
+    decision_div = group.find('div', class_=re.compile(r'tw-inline-flex.*'))
+    data['decision'] = decision_div.get_text(strip=True) if decision_div else None
+
+    result_link = group.find('a', href=re.compile(r'^/result/\d+'))
+    data['result_url'] = (
+        f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
+    )
+
+    return data
+
+def parse_below_td(below_td, data):
+    """Parse the below_td row for tags and comments."""
+    if below_td:
+        tag_container = below_td.find('div', class_='tw-gap-2 tw-flex tw-flex-wrap')
+        if tag_container:
+            tags = tag_container.find_all('div', class_='tw-inline-flex')
+            for tag in tags:
+                text = tag.get_text(strip=True)
+                lower_text = text.lower()
+                if any(season in lower_text for season in ['fall', 'spring', 'summer']):
+                    data['semester_year'] = text
+                elif 'international' in lower_text or 'american' in lower_text:
+                    data['international_american'] = text
+                elif lower_text.startswith('gpa'):
+                    data['gpa'] = text.replace('GPA:', '').strip()
+                elif lower_text.startswith('gre v'):
+                    data['gre_v_score'] = text.replace('GRE V:', '').strip()
+                elif lower_text.startswith('gre aw'):
+                    data['gre_aw'] = text.replace('GRE AW:', '').strip()
+                elif lower_text.startswith('gre'):
+                    data['gre_score'] = text.replace('GRE:', '').strip()
+        comments_row = below_td.find_next_sibling('tr', class_='tw-border-none')
+        if comments_row:
+            comment_div = comments_row.find(
+                'p',
+                class_='tw-text-gray-500 tw-text-sm tw-my-0'
+            )
+            if comment_div:
+                data['comment'] = comment_div.get_text(strip=True)
+    return data
+
 def scrape_data(max_pages):
     """
     Scrapes application data from TheGradCafe for a given number of pages.
@@ -40,72 +108,9 @@ def scrape_data(max_pages):
         groups = data_table.find_all('tr', class_=False)
 
         for group in groups:
-            data = {}
-
-            school_div = group.find(
-                'div',
-                class_='tw-font-medium tw-text-gray-900 tw-text-sm'
-            )
-            data['school_name'] = school_div.get_text(strip=True) if school_div else None
-
-            program_td = group.find_all('td')[1] if len(group.find_all('td')) > 1 else None
-            if program_td:
-                program_div = program_td.find('div', class_='tw-text-gray-900')
-                if program_div:
-                    spans = program_div.find_all('span')
-                    data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
-                    degree_span = program_div.find_next('span', class_='tw-text-gray-500')
-                    data['degree'] = degree_span.get_text(strip=True) if degree_span else None
-                else:
-                    data['program'] = None
-                    data['degree'] = None
-            else:
-                data['program'] = None
-                data['degree'] = None
-
-            tds = group.find_all('td')
-            data['date_added'] = tds[2].get_text(strip=True) if len(tds) >= 3 else None
-
-            decision_div = group.find('div', class_=re.compile(r'tw-inline-flex.*'))
-            data['decision'] = decision_div.get_text(strip=True) if decision_div else None
-
-            result_link = group.find('a', href=re.compile(r'^/result/\d+'))
-            data['result_url'] = (
-                f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
-            )
-
+            data = parse_group(group)
             below_td = group.find_next_sibling('tr')
-            if below_td:
-                tag_container = below_td.find('div', class_='tw-gap-2 tw-flex tw-flex-wrap')
-                if tag_container:
-                    tags = tag_container.find_all('div', class_='tw-inline-flex')
-
-                    for tag in tags:
-                        text = tag.get_text(strip=True)
-                        lower_text = text.lower()
-
-                        if any(season in lower_text for season in ['fall', 'spring', 'summer']):
-                            data['semester_year'] = text
-                        elif 'international' in lower_text or 'american' in lower_text:
-                            data['international_american'] = text
-                        elif lower_text.startswith('gpa'):
-                            data['gpa'] = text.replace('GPA:', '').strip()
-                        elif lower_text.startswith('gre v'):
-                            data['gre_v_score'] = text.replace('GRE V:', '').strip()
-                        elif lower_text.startswith('gre aw'):
-                            data['gre_aw'] = text.replace('GRE AW:', '').strip()
-                        elif lower_text.startswith('gre'):
-                            data['gre_score'] = text.replace('GRE:', '').strip()
-
-                comments_row = below_td.find_next_sibling('tr', class_='tw-border-none')
-                if comments_row:
-                    comment_div = comments_row.find(
-                        'p',
-                        class_='tw-text-gray-500 tw-text-sm tw-my-0'
-                    )
-                    if comment_div:
-                        data['comment'] = comment_div.get_text(strip=True)
-
+            data = parse_below_td(below_td, data)
             collected_data.append(data)
 
         page_number += 1
@@ -148,6 +153,7 @@ def load_data(filename='application_data.json', print_entries=False):
         print(f"File '{filename}' not found.")
     except json.JSONDecodeError:
         print(f"Error decoding JSON from file '{filename}'.")
+    return None  # Ensure a return value in all cases
 
 if __name__ == "__main__":
     DATA = scrape_data(max_pages=1000)
