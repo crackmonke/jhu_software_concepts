@@ -37,7 +37,7 @@ This is a personal website for a JHU assignment.
 
 1. **Build the Docker image:**
    ```
-   docker build -t personal-site .
+   docker build .
    ```
 
 2. **Run the Docker container:**
