@@ -42,7 +42,7 @@ This is a personal website for a JHU assignment.
 
 2. **Run the Docker container:**
    ```
-   docker run -p 8080:8080 personal-site
+   docker run -p 8080:8080 (image ID)
    ```
 
 3. **Open your browser and go to:**  
