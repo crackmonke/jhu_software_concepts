@@ -10,44 +10,56 @@ from clean import clean_data
 URL = "https://www.thegradcafe.com/survey/?page="
 
 def parse_group(group):
-    """Parse a single group row and return a data dictionary."""
-    data = {}
+    """Parse a single group row and return a data dictionary with all expected fields."""
+    data = {
+        'school_name': None,
+        'program': None,
+        'degree': None,
+        'date_added': None,
+        'decision': None,
+        'result_url': None,
+        'semester_year': None,
+        'international_american': None,
+        'gpa': None,
+        'gre_v_score': None,
+        'gre_aw': None,
+        'gre_score': None,
+        'comment': None
+    }
     school_div = group.find(
         'div',
         class_='tw-font-medium tw-text-gray-900 tw-text-sm'
     )
-    data['school_name'] = school_div.get_text(strip=True) if school_div else None
+    if school_div:
+        data['school_name'] = school_div.get_text(strip=True)
 
     program_td = group.find_all('td')[1] if len(group.find_all('td')) > 1 else None
     if program_td:
         program_div = program_td.find('div', class_='tw-text-gray-900')
         if program_div:
             spans = program_div.find_all('span')
-            data['program'] = spans[0].get_text(strip=True) if len(spans) > 0 else None
+            if len(spans) > 0:
+                data['program'] = spans[0].get_text(strip=True)
             degree_span = program_div.find_next('span', class_='tw-text-gray-500')
-            data['degree'] = degree_span.get_text(strip=True) if degree_span else None
-        else:
-            data['program'] = None
-            data['degree'] = None
-    else:
-        data['program'] = None
-        data['degree'] = None
+            if degree_span:
+                data['degree'] = degree_span.get_text(strip=True)
 
     tds = group.find_all('td')
-    data['date_added'] = tds[2].get_text(strip=True) if len(tds) >= 3 else None
+    if len(tds) >= 3:
+        data['date_added'] = tds[2].get_text(strip=True)
 
     decision_div = group.find('div', class_=re.compile(r'tw-inline-flex.*'))
-    data['decision'] = decision_div.get_text(strip=True) if decision_div else None
+    if decision_div:
+        data['decision'] = decision_div.get_text(strip=True)
 
     result_link = group.find('a', href=re.compile(r'^/result/\d+'))
-    data['result_url'] = (
-        f"https://www.thegradcafe.com{result_link['href']}" if result_link else None
-    )
+    if result_link:
+        data['result_url'] = f"https://www.thegradcafe.com{result_link['href']}"
 
     return data
 
 def parse_below_td(below_td, data):
-    """Parse the below_td row for tags and comments."""
+    """Parse the below_td row for tags and comments, always setting all expected fields."""
     if below_td:
         tag_container = below_td.find('div', class_='tw-gap-2 tw-flex tw-flex-wrap')
         if tag_container:
