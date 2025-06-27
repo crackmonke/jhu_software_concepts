@@ -1,0 +1,33 @@
+# Grad Cafe Pipeline
+
+This project provides a simple pipeline to download applicant data from an AWS S3 bucket and save a renamed copy locally.
+
+*This README was written by GitHub Copilot.*
+
+## Features
+
+- Downloads `applicant_data.json` from the S3 bucket `grad-cafe-spg`
+- Saves a renamed version as `applicant_data_SM.json`
+
+## Requirements
+
+Install dependencies using:
+
+```sh
+pip install -r requirements.txt
+```
+
+## Usage
+
+1. Ensure your AWS credentials are configured (e.g., via IAM role or AWS CLI).
+2. Run the notebook [`grad_cafe_pipeline.ipynb`](grad_cafe_pipeline.ipynb).
+
+The notebook will:
+- Download the file from S3
+- Save a renamed copy in your working directory
+
+## Files
+
+- [`grad_cafe_pipeline.ipynb`](grad_cafe_pipeline.ipynb): Main pipeline notebook
+- [`requirements.txt`](requirements.txt): Python dependencies
+
