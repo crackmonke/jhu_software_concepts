@@ -15,6 +15,12 @@ def scrape_data(max_pages):
     page_number = 1
     collected_data = []
 
+    expected_fields = [
+        'school_name', 'program', 'degree', 'date_added', 'decision',
+        'result_url', 'semester_year', 'international_american', 'gpa',
+        'gre_v_score', 'gre_aw', 'gre_score', 'comment'
+    ]
+
     while page_number <= max_pages:
         print(f"Scraping page {page_number}...")
         try:
@@ -32,7 +38,8 @@ def scrape_data(max_pages):
         groups = data_table.find_all('tr', class_=False)
 
         for group in groups:
-            data = {}
+            # Initialize all expected fields to None
+            data = {field: None for field in expected_fields}
 
             # School Name
             school_div = group.find('div', class_='tw-font-medium tw-text-gray-900 tw-text-sm')

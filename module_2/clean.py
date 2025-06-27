@@ -1,12 +1,21 @@
 import re
 
 def clean_data(data):
-    # Initialize a list to hold cleaned entries
+    expected_fields = [
+        'school_name', 'program', 'degree', 'date_added', 'decision',
+        'result_url', 'semester_year', 'international_american', 'gpa',
+        'gre_v_score', 'gre_aw', 'gre_score', 'comment'
+    ]
     cleaned_data = []
     for entry in data:
         # Skip entry if any required field is None
         if entry.get('school_name') is None or entry.get('program') is None or entry.get('date_added') is None:
             continue
+
+        # Ensure all expected fields are present
+        for field in expected_fields:
+            if field not in entry:
+                entry[field] = None
 
         # Strip whitespace from all string fields in the entry
         for key, value in entry.items():
