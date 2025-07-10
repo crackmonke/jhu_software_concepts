@@ -1,9 +1,9 @@
 import pandas as pd
 
 # Load the JSON file
-df = pd.read_json('clean_applicant_data.json')
+df = pd.read_json('cleaned_applicant_data.json')
 
 # Count unique program names
-unique_programs = df['program_name'].nunique()
+unique_programs = df['program'].nunique()
 
-print(f"Number of unique program names: {unique_programs}")
+print(f"Number of unique programs: {unique_programs}")
