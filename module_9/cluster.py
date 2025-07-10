@@ -36,6 +36,17 @@ labels = kmeans.labels_
 
 print("KMeans clustering complete.")
 
+# Add cluster labels to the original dataframe
+df['cluster'] = labels
+
+# Create a new DataFrame with program name, university, and cluster
+# Replace 'university' with the actual column name if it's different in your data
+result_df = df[['program', 'university', 'cluster']].copy()
+
+# Show the first 100 rows
+pd.set_option('display.max_rows', None)  # Show all rows
+print(result_df.head(100))
+
 # Plot the PCA-reduced data colored by cluster label
 plt.figure(figsize=(10, 7))
 scatter = plt.scatter(reduced[:, 0], reduced[:, 1], c=labels, cmap='tab20', s=30)
@@ -43,4 +54,4 @@ plt.title("KMeans Clustering of Programs")
 plt.xlabel("KMeans Distance Direction 1")
 plt.ylabel("KMeans Distance Direction 2")
 
-plt.show()
+#plt.show()
