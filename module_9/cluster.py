@@ -24,4 +24,4 @@ print("Number of stored elements (nnz):", tfidf_matrix.nnz)
 coo = tfidf_matrix.tocoo()
 print("Row | Col | Value")
 for row, col, value in zip(coo.row, coo.col, coo.data):
-    print(f"{row}   | {col}   | {value}")
+    print(f"{row} {col} {value}")
