@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 
 # Load the JSON file
 df = pd.read_json('cleaned_applicant_data.json')
@@ -22,12 +23,6 @@ tfidf_matrix = vectorizer.fit_transform(df['program'])
 print("TF-IDF matrix created with shape:", tfidf_matrix.shape)
 print("Number of stored elements (nnz):", tfidf_matrix.nnz)
 
-# Convert to COO format to print coordinates and values
-coo = tfidf_matrix.tocoo()
-print("Row | Col | Value")
-for row, col, value in zip(coo.row, coo.col, coo.data):
-    print(f"{row} {col} {value}")
-
 # Reduce dimensionality to 2 components using PCA
 pca = PCA(n_components=2)
 tfidf_dense = tfidf_matrix.toarray()
@@ -40,3 +35,12 @@ kmeans.fit(reduced)
 labels = kmeans.labels_
 
 print("KMeans clustering complete.")
+
+# Plot the PCA-reduced data colored by cluster label
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(reduced[:, 0], reduced[:, 1], c=labels, cmap='tab20', s=30)
+plt.title("KMeans Clustering of Programs")
+plt.xlabel("KMeans Distance Direction 1")
+plt.ylabel("KMeans Distance Direction 2")
+plt.colorbar(scatter, label='Cluster Label')
+plt.show()
