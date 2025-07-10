@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
 
 # Load the JSON file
 df = pd.read_json('cleaned_applicant_data.json')
@@ -32,5 +33,10 @@ pca = PCA(n_components=2)
 tfidf_dense = tfidf_matrix.toarray()
 reduced = pca.fit_transform(tfidf_dense)
 print("PCA reduced matrix shape:", reduced.shape)
-print("First 5 rows of PCA reduced matrix:")
-print(reduced[:5])
+
+# Cluster the PCA-reduced data into 50 clusters using KMeans
+kmeans = KMeans(n_clusters=50, max_iter=100, n_init=5, random_state=42)
+kmeans.fit(reduced)
+labels = kmeans.labels_
+
+print("KMeans clustering complete.")
