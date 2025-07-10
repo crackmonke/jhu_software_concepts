@@ -42,5 +42,5 @@ scatter = plt.scatter(reduced[:, 0], reduced[:, 1], c=labels, cmap='tab20', s=30
 plt.title("KMeans Clustering of Programs")
 plt.xlabel("KMeans Distance Direction 1")
 plt.ylabel("KMeans Distance Direction 2")
-plt.colorbar(scatter, label='Cluster Label')
+
 plt.show()
