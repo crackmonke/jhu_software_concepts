@@ -44,7 +44,7 @@ plt.title("Elbow Method using inertia")
 plt.xlabel("Values of K")
 plt.ylabel("Inertia")
 plt.grid(True)
-plt.show()
+#plt.show()
 
 
 optimal_k = 20
@@ -76,4 +76,4 @@ plt.title(f"KMeans Clustering of Programs (k={optimal_k})")
 plt.xlabel("KMeans Distance Direction 1")
 plt.ylabel("KMeans Distance Direction 2")
 plt.grid(True)
-plt.show()
+#plt.show()
