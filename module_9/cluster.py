@@ -67,7 +67,8 @@ result_df = df[['program', 'university', 'cluster']].copy()
 pd.set_option('display.max_rows', None)
 
 # Show the first 100 rows
-print(result_df.head(100))
+print(result_df.head())
+
 
 # Plot the PCA-reduced data with cluster colors
 plt.figure(figsize=(10, 7))
@@ -77,3 +78,7 @@ plt.xlabel("KMeans Distance Direction 1")
 plt.ylabel("KMeans Distance Direction 2")
 plt.grid(True)
 #plt.show()
+
+# Save the DataFrame with cluster assignments to a new JSON file
+df.to_json('clustered_applicant_data.json', orient='records', lines=False)
+print("Cluster assignments saved to clustered_applicant_data.json")
