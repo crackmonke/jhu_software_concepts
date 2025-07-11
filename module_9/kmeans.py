@@ -110,21 +110,21 @@ cs_gre_data = df[cs_cluster_mask][['gre_score', 'gre_v_score']].dropna()
 phil_cluster_mask = pd.Series(cluster_labels).isin(phil_clusters)
 phil_gre_data = df[phil_cluster_mask][['gre_score', 'gre_v_score']].dropna()
 
-# Create comparison graphs for GRE scores
+# Create separate graphs for GRE scores
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
-# GRE Total Score comparison
-ax1.boxplot([cs_gre_data['gre_score'].dropna(), phil_gre_data['gre_score'].dropna()],
-           labels=['Computer Science', 'Philosophy'])
-ax1.set_title('GRE Total Score Comparison')
-ax1.set_ylabel('GRE Total Score')
+# Philosophy GRE Scores (Total and Verbal side by side)
+ax1.boxplot([phil_gre_data['gre_score'].dropna(), phil_gre_data['gre_v_score'].dropna()],
+           labels=['GRE Total', 'GRE Verbal'])
+ax1.set_title('Philosophy - GRE Scores')
+ax1.set_ylabel('Score')
 ax1.grid(True, alpha=0.3)
 
-# GRE Verbal Score comparison
-ax2.boxplot([cs_gre_data['gre_v_score'].dropna(), phil_gre_data['gre_v_score'].dropna()],
-           labels=['Computer Science', 'Philosophy'])
-ax2.set_title('GRE Verbal Score Comparison')
-ax2.set_ylabel('GRE Verbal Score')
+# Computer Science GRE Scores (Total and Verbal side by side)
+ax2.boxplot([cs_gre_data['gre_score'].dropna(), cs_gre_data['gre_v_score'].dropna()],
+           labels=['GRE Total', 'GRE Verbal'])
+ax2.set_title('Computer Science - GRE Scores')
+ax2.set_ylabel('Score')
 ax2.grid(True, alpha=0.3)
 
 plt.tight_layout()
