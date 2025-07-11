@@ -24,7 +24,6 @@ A comprehensive Python script that performs clustering analysis on graduate scho
 #### 4. Optimal Cluster Selection
 - Implements the Elbow Method to determine the optimal number of clusters
 - Tests cluster sizes from 1 to 100 and plots inertia values
-- Saves the elbow curve as `elbow.png`
 
 #### 5. K-Means Clustering
 - Performs K-Means clustering with 50 clusters
