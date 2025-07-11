@@ -1,12 +1,24 @@
-import pandas as pd
+"""
+Module for clustering graduate school application data using K-Means and TF-IDF vectorization.
+
+This module performs the following analysis:
+1. Loads and processes graduate application data
+2. Creates TF-IDF vectors from program names
+3. Applies PCA for dimensionality reduction
+4. Uses elbow method to find optimal cluster count
+5. Performs K-Means clustering
+6. Analyzes GRE scores across different program clusters
+"""
+
 import json
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
 # Load the cleaned applicant data
-with open('cleaned_applicant_data.json', 'r') as file:
+with open('cleaned_applicant_data.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 # Convert to DataFrame
@@ -85,7 +97,7 @@ cs_mask = df['program'] == 'Computer Science'
 cs_clusters = set(cluster_labels[cs_mask])
 print(f"Computer Science programs are in clusters: {cs_clusters}")
 
-# Find clusters containing Philosophy programs  
+# Find clusters containing Philosophy programs
 phil_mask = df['program'] == 'Philosophy'
 phil_clusters = set(cluster_labels[phil_mask])
 print(f"Philosophy programs are in clusters: {phil_clusters}")
@@ -102,14 +114,14 @@ phil_gre_data = df[phil_cluster_mask][['gre_score', 'gre_v_score']].dropna()
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
 # GRE Total Score comparison
-ax1.boxplot([cs_gre_data['gre_score'].dropna(), phil_gre_data['gre_score'].dropna()], 
+ax1.boxplot([cs_gre_data['gre_score'].dropna(), phil_gre_data['gre_score'].dropna()],
            labels=['Computer Science', 'Philosophy'])
 ax1.set_title('GRE Total Score Comparison')
 ax1.set_ylabel('GRE Total Score')
 ax1.grid(True, alpha=0.3)
 
 # GRE Verbal Score comparison
-ax2.boxplot([cs_gre_data['gre_v_score'].dropna(), phil_gre_data['gre_v_score'].dropna()], 
+ax2.boxplot([cs_gre_data['gre_v_score'].dropna(), phil_gre_data['gre_v_score'].dropna()],
            labels=['Computer Science', 'Philosophy'])
 ax2.set_title('GRE Verbal Score Comparison')
 ax2.set_ylabel('GRE Verbal Score')
@@ -118,11 +130,11 @@ ax2.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 
-print(f"GRE score comparison saved as 'clustered_dataFrame.png'")
+print("GRE score comparison saved as 'clustered_dataFrame.png'")
 
 # Plot the clustering results
 plt.figure(figsize=(12, 8))
-scatter = plt.scatter(reduced_matrix[:, 0], reduced_matrix[:, 1], 
+scatter = plt.scatter(reduced_matrix[:, 0], reduced_matrix[:, 1],
                      c=cluster_labels, cmap='tab10', alpha=0.6, s=10)
 plt.xlabel('KMeans Distance Direction 1')
 plt.ylabel('KMeans Distance Direction 2')
