@@ -117,6 +117,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 ax1.boxplot([phil_gre_data['gre_score'].dropna(), phil_gre_data['gre_v_score'].dropna()],
            labels=['GRE Total', 'GRE Verbal'])
 ax1.set_title('Philosophy - GRE Scores')
+ax1.set_xlabel('GRE Component')
 ax1.set_ylabel('Score')
 ax1.grid(True, alpha=0.3)
 
@@ -124,6 +125,7 @@ ax1.grid(True, alpha=0.3)
 ax2.boxplot([cs_gre_data['gre_score'].dropna(), cs_gre_data['gre_v_score'].dropna()],
            labels=['GRE Total', 'GRE Verbal'])
 ax2.set_title('Computer Science - GRE Scores')
+ax2.set_xlabel('GRE Component')
 ax2.set_ylabel('Score')
 ax2.grid(True, alpha=0.3)
 
